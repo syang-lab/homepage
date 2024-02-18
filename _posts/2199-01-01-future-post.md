@@ -6,4 +6,4 @@ tags:
   - diffuse model
 ---
 
-Next post will be about applications of diffuse models on various tasks for instance super-resolution etc. 
+The upcoming post will explore the applications of diffuse models across different tasks, such as super-resolution and more.
