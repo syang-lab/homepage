@@ -2,15 +2,15 @@
 main:
   - title: "Portfolio"
     url: /portfolio/
-        
+       
   - title: "Blog Posts"
     url: /year-archive/
     
   - title: "Publications"
     url: https://scholar.google.com/citations?hl=en&user=fXOs1A0AAAAJ
 
-  - title: "Talks"
-    url: /talks/    
+  #- title: "Talks"
+  #  url: /talks/    
 
   #- title: "Teaching"
   #  url: /teaching/    
