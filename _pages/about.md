@@ -8,7 +8,7 @@ redirect_from:
 ---
 
 ## Projects
-* Implemented Layered Rendering Diffusion Model for Zero-Shot Guided Image Synthesis [Colab LRDiff] (https://colab.research.google.com/drive/1KcNvrjh7k5G4FFbzeMfdGruA-o0Y4XZB)
+* Implemented Layered Rendering Diffusion Model for Zero-Shot Guided Image Synthesis [Colab LRDiff](https://colab.research.google.com/drive/1KcNvrjh7k5G4FFbzeMfdGruA-o0Y4XZB)
   * Launched the first version of the rendering diffusion model, enabling the synthesis of images that adhere to particular spatial and contextual specifications. Published the code to paperwithcode.
   * LRDiff can manipulate the spatial arrangement of semantic objects via sampling without the necessity for retraining.
   * Vision guidance was incorporated through introducing perturbations to the sampling process using weighted masks. The weights of masks were determined by the intensity of cross-attention maps between input masks and semantic objects in the Unet.
