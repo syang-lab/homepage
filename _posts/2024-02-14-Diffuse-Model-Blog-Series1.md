@@ -5,3 +5,5 @@ permalink: /posts/2024/02/Diffuse-Model-Blog-Series1/
 tags:
   - diffuse model
 ---
+
+<image src="/files/diffuse_model_blog_series1.pdf"/>
