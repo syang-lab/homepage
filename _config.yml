@@ -26,16 +26,16 @@ author:
   pronouns         : # example: "she/her"  
   bio              : "Gen AI Research and Application"
   location         : "Earth"
-  employer         : ""
+  employer         : # ""
   uri              : # URL
-  email            : "" 
+  email            : # "" 
 
   # Academic websites
   arxiv            : # URL - Update with the correct link to your profile
   googlescholar    : "https://scholar.google.com/citations?hl=en&user=fXOs1A0AAAAJ"
   impactstory      : # URL
-  orcid            : ""
-  pubmed           : ""
+  orcid            : # ""
+  pubmed           : # ""
   researchgate     : # URL
 
   # Repositories and software development
