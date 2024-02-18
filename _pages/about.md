@@ -6,6 +6,10 @@ redirect_from:
   - /about/
   - /about.html
 ---
+## About Me
+I earned my PhD in Materials Science and a Master's degree in Computer Science from Duke University in 2022. During my doctoral studies, I specialized in conducting simulations on supercomputers to explore various material properties. My Master's program focused on machine learning, deep learning, and natural language processing techniques. This dual expertise equips me with a strong foundation in both theoretical research and practical applications across interdisciplinary domains. 
+
+In addition to my academic background, I've gained practical experience in VQGAN, diffuse models and natural language processing projects. Currently, I'm in the process of writing a comprehensive blog post on diffuse models, delving into the underlying physics and mathematics behind them.
 
 ## Projects
 * Implemented Layered Rendering Diffusion Model for Zero-Shot Guided Image Synthesis [Colab LRDiff](https://colab.research.google.com/drive/1KcNvrjh7k5G4FFbzeMfdGruA-o0Y4XZB)
@@ -19,15 +23,14 @@ integrates ViT-VQGAN with transformer encoder and decoder.
   * Presented the initial unofficial release of the Parti model, emphasizing the integration of all modules and
 training codes within a unified package, addressing the absence of training code in existing Parti implementations.
 
-* Created Generation Evaluation Matrix Frechet CLIP Distance [github FCD_Score](https://github.com/syang-lab/FCD_Score)
-  * To overcome the domain limitations of the FID score, I created a new evaluation matrix called Frechet CLIP Distance. This metric depends on the pretrained CLIP model and is distributed through PyPI.
-
 * Financial Event Detection and Text Summarization [github NLP](https://github.com/syang-lab/NLP_Project)
   * Constructed and trained NLP models to evaluate the significance of domain adaptation in financial event classification and financial text summarization tasks, utilizing a financial dataset.
   * Compared DistilBert-based (66M Params) event detection models with and without masked language modeling adaptation. The inclusion of domain adaptation led to a 6.13% increase in single-shot accuracy and a 5.28% improvement in fine-tuning accuracy.
   * Implemented and assessed the performance of t5-small (580M Params) on summarization tasks, employing both with and without denoising adaptation. Utilized ROUGE scores for evaluation, observing about 1.4 improvements in few-shot rougeL and rougeLsum scores with the inclusion of denoising adaptation.
   * Used SageMaker for training, evaluation, hyperparameter tuning and deployment. Created Gradio apps for financial event detection and text summarization, and deployed them to Hugging Face Spaces. [Financialevent_Detection](https://huggingface.co/spaces/SHSH0819/event_detection_app) and [FinancialNews_Summarization](https://huggingface.co/spaces/SHSH0819/FinancialNews_Summarization_APP)
 
+* Created Generation Evaluation Matrix Frechet CLIP Distance [github FCD_Score](https://github.com/syang-lab/FCD_Score)
+  * To overcome the domain limitations of the FID score, I created a new evaluation matrix called Frechet CLIP Distance. This metric depends on the pretrained CLIP model and is distributed through PyPI.
 
 ## Research Experience
 * Research Assistant, Duke University, 2016-2022
