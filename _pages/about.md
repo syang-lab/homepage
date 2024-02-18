@@ -1,11 +1,12 @@
 ---
 permalink: /
-title: "Little about Me, More about My GenAI Projects"
+title: "Little About Me, More About My GenAI Projects"
 author_profile: true
 redirect_from: 
   - /about/
   - /about.html
 ---
+
 ## About Me
 I earned my PhD in Materials Science and a Master's degree in Computer Science from Duke University in 2022. During my doctoral studies, I specialized in conducting simulations on supercomputers to explore various material properties. My Master's program focused on machine learning, deep learning, and natural language processing techniques. This dual expertise equips me with a strong foundation in both theoretical research and practical applications across interdisciplinary domains. 
 
