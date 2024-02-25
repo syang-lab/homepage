@@ -69,7 +69,7 @@ ultimately restoring the original image.
 <div class="center">
 
 <figure>
-<img src="Fig1-DDPM.png" id="DDPM" alt="The directed graphical model of DDPM ." /><figcaption aria-hidden="true">The directed graphical model of DDPM <span class="citation" data-cites="ho2020denoising"></span>.</figcaption>
+<img src="/files/diffuse/Fig1-DDPM.png" id="DDPM" alt="The directed graphical model of DDPM ." /><figcaption aria-hidden="true">The directed graphical model of DDPM <span class="citation" data-cites="ho2020denoising"></span>.</figcaption>
 </figure>
 
 </div>
