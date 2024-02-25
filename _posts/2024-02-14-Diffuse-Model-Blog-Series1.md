@@ -14,46 +14,17 @@ model, systematically summarize the mathematics underlying DDPM and DDIM
 models, and examine the algorithms used in guided image generation.
 
 # Physics Underline Diffuse Model
-<figure>
-<img src="/files/diffuse/physics_underline_diffuse_model.png" id="DDPM" alt="The directed graphical model of DDPM ." />
-</figure>
+The diffuse model draws inspiration from non-equilibrium thermodynamics\cite{sohl2015deep}. Therefore, understanding the underlying physical processes aids in grasping the algorithm from a broader perspective. 
+
+Now, delving into the physical intuition behind the diffuse model. Imagining pollen entering a large bottle of water, the pollen gradually disperse throughout the water through Brownian motion, and eventually achieving random distribution. The motion of pollen in water can be described by the Langevin Equation, which can be simplifies to 
+$$x_{t+\Delta t}=x_{t}+\frac{\Delta t}{\gamma}\Delta E +\frac{\Delta t}{\gamma}\epsilon_t$$
+Here, $\Delta E$ is the potential, $\gamma$ is the faction coefficient, $\epsilon_t$ is random variable that follows random distribution. In \cref{eq:LE} the second term accounts for drift of pollen driven by particle density, and the third term represents particle's random motion.
 
 
+The diffuse model consists of two distinct processes: forward and reverse (generation). Understanding the diffuse process from the physical perspective reveals that the forward process mimics the diffusion of pollen particles in water. During this phase, the diffuse model consistently introduces random noise into the system. In contrast, the reverse (generation) process is designed to entirely reverse the diffusion process, allowing for the collection of pollen. This reversal entails retracing the movements or distribution of diffusing particles in the opposite direction, ultimately restoring the initial configuration.
 
-The diffuse model draws inspiration from non-equilibrium thermodynamics.
-Therefore, understanding the underlying physical processes aids in
-grasping the algorithm from a broader perspective.
 
-Now, delving into the physical intuition behind the diffuse model.
-Imagining pollen entering a large bottle of water, the pollen gradually
-disperse throughout the water through Brownian motion, and eventually
-achieving random distribution. The motion of pollen in water can be
-described by the Langevin Equation, which can be simplifies to
-$$\\label{eq:LE}
-x\_{t+\\Delta t}=x\_{t}+\\frac{\\Delta t}{\\gamma}\\Delta E +\\frac{\\Delta t}{\\gamma}\\epsilon_t$$
-Here, *Δ**E* is the potential, *γ* is the faction coefficient,
-*ϵ*<sub>*t*</sub> is random variable that follows random distribution.
-In
-<a href="#eq:LE" data-reference-type="ref" data-reference="eq:LE">[eq:LE]</a>
-the second term accounts for drift of pollen driven by particle density,
-and the third term represents particle’s random motion.
-
-The diffuse model consists of two distinct processes: forward and
-reverse (generation). Understanding the diffuse process from the
-physical perspective reveals that the forward process mimics the
-diffusion of pollen particles in water. During this phase, the diffuse
-model consistently introduces random noise into the system. In contrast,
-the reverse (generation) process is designed to entirely reverse the
-diffusion process, allowing for the collection of pollen. This reversal
-entails retracing the movements or distribution of diffusing particles
-in the opposite direction, ultimately restoring the initial
-configuration.
-
-Mathematically, the reverse process employs Markov processes, stochastic
-differential equations (SDEs), or ordinary differential equations (ODEs)
-to reconstruct the data distribution from random noise. SDEs and ODEs
-are capable of approximating the solutions of discrete Markov processes
-since they possess the same marginal distribution.
+Mathematically, the reverse process employs Markov processes, stochastic differential equations (SDEs), or ordinary differential equations (ODEs) to reconstruct the data distribution from random noise. SDEs and ODEs are capable of approximating the solutions of discrete Markov processes since they possess the same marginal distribution. \cite{cao2022survey}
 
 # Diffuse Models
 
