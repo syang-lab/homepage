@@ -26,19 +26,6 @@ The diffuse model consists of two distinct processes: forward and reverse (gener
 
 Mathematically, the reverse process employs Markov processes, stochastic differential equations (SDEs), or ordinary differential equations (ODEs) to reconstruct the data distribution from random noise. SDEs and ODEs are capable of approximating the solutions of discrete Markov processes since they possess the same marginal distribution. \cite{cao2022survey}
 
-\section{Physics of Diffuse Model}
-The diffuse model draws inspiration from non-equilibrium thermodynamics\cite{sohl2015deep}. Therefore, understanding the underlying physical processes aids in grasping the algorithm from a broader perspective. 
-
-Now, delving into the physical intuition behind the diffuse model. Imagining pollen entering a large bottle of water, the pollen gradually disperse throughout the water through Brownian motion, and eventually achieving random distribution. The motion of pollen in water can be described by the Langevin Equation, which can be simplifies to 
-$$x_{t+\Delta t}=x_{t}+\frac{\Delta t}{\gamma}\Delta E +\frac{\Delta t}{\gamma}\epsilon_t$$
-Here, $\Delta E$ is the potential, $\gamma$ is the faction coefficient, $\epsilon_t$ is random variable that follows random distribution. In \cref{eq:LE} the second term accounts for drift of pollen driven by particle density, and the third term represents particle's random motion.
-
-
-The diffuse model consists of two distinct processes: forward and reverse (generation). Understanding the diffuse process from the physical perspective reveals that the forward process mimics the diffusion of pollen particles in water. During this phase, the diffuse model consistently introduces random noise into the system. In contrast, the reverse (generation) process is designed to entirely reverse the diffusion process, allowing for the collection of pollen. This reversal entails retracing the movements or distribution of diffusing particles in the opposite direction, ultimately restoring the initial configuration.
-
-
-Mathematically, the reverse process employs Markov processes, stochastic differential equations (SDEs), or ordinary differential equations (ODEs) to reconstruct the data distribution from random noise. SDEs and ODEs are capable of approximating the solutions of discrete Markov processes since they possess the same marginal distribution. \cite{cao2022survey}
-
 # Diffuse Models
 ## Denoising Diffusion Probabilistic Models--DDPM
 The denoising probabilistic diffusion model (DDPM) \cite{ho2020denoising} is one the pioneers of the diffuse model, for which the forward and reverse process are shown in \cref{DDPM}. In the forward process $q(x_t|x_{t-1})$, noise is intentionally introduced into the original image $x_0$, until the image becomes random noise $x_T$. Conversely, in the reverse process $p_{\theta}(x_{t-1}|x_t)$, noise is systematically removed from the noisy image $x_T$, and ultimately restoring the original image. 
@@ -79,36 +66,19 @@ and $\sigma_{t}^{2}$ can be ${\beta}_t$ or ${\tilde\beta}_t$.
 
 
 The cost function should be able to lower log-likelihood, when the generated data belonging to the same distribution as the original data. Then, the cost function is simplified to calculate the lower bond (VLB) of log-likelihood: $L_{VLB}=L_{0}+...L_{t-1}+...L_{T}$, $L_{T}$ is constant and it turns out better results are obtained without $L_{0}$ term. Therefore, the only term left is $L_{t}$:
-\begin{equation}
-\label{eq:loss}
-L_{vlb}=D_{kl}(q(x_{t-1}|x_t,x_0),p_{\theta}(x_{t-1}|x_{t}))
-\end{equation}
+$$L_{vlb}=D_{kl}(q(x_{t-1}|x_t,x_0),p_{\theta}(x_{t-1}|x_{t}))$$
 
 
 insert \cref{eq:forward_condition_q} and equation \cref{eq:reverse_p} in to equation \cref{eq:loss}: 
-\begin{equation}
-L_{t-1}=E_q[\frac{1}{2\sigma_t^{2}}||\tilde{\mu}_t(x_t,x_0)-\mu_{\theta}(x_t,t)||^2]
-\end{equation}
+$$L_{t-1}=E_q[\frac{1}{2\sigma_t^{2}}||\tilde{\mu}_t(x_t,x_0)-\mu_{\theta}(x_t,t)||^2]$$
 There are three options from here for parameterize: 1. predict $x_0$ directly 2. predict $\mu_{\theta}$ 3. predict noise $\epsilon_{\theta}$. DDPM chose to predict $\epsilon_{\theta}$ through the following parameterize function:
-\begin{equation}
-\begin{aligned}
-\mu_{\theta}=\tilde{\mu}_t(x_t,x_0)=\tilde{\mu}_t(x_t,\frac{1}{\sqrt{\bar{\alpha}}}(x_t-\sqrt{1-\bar{\alpha_t}} \epsilon_{\theta}(x_t))) \\
-=\frac{1}{\sqrt{\alpha_t}}(x_t-\frac{\beta_t}{1-\bar{\alpha_t}}\epsilon_{\theta}(x_t,t))
-\end{aligned}
-\end{equation}
+$$\mu_{\theta}=\tilde{\mu}_t(x_t,x_0)=\tilde{\mu}_t(x_t,\frac{1}{\sqrt{\bar{\alpha}}}(x_t-\sqrt{1-\bar{\alpha_t}} \epsilon_{\theta}(x_t)))=\frac{1}{\sqrt{\alpha_t}}(x_t-\frac{\beta_t}{1-\bar{\alpha_t}}\epsilon_{\theta}(x_t,t))$$
 therefore 
-\begin{equation}
-x_{t-1}=\frac{1}{\sqrt{\alpha_t}}(x_t-\frac{\beta_t}{1-\bar{\alpha_t}}\epsilon_{\theta}(x_t,t))+\sigma_{t}z
-\end{equation}
+$$x_{t-1}=\frac{1}{\sqrt{\alpha_t}}(x_t-\frac{\beta_t}{1-\bar{\alpha_t}}\epsilon_{\theta}(x_t,t))+\sigma_{t}z$$
 in which $z \sim N(0,I)$. The resulting loss function becomes
-\begin{equation}
-\label{eq:loss_simple}
-L_{simple}(\theta)=E_{\tau,x_0,\epsilon}[||\epsilon-\epsilon_{\theta}(x_t,t)||^2]
-\end{equation}
+$$L_{simple}(\theta)=E_{\tau,x_0,\epsilon}[||\epsilon-\epsilon_{\theta}(x_t,t)||^2]$$
 insert \cref{eq:forward_xt} into \cref{eq:loss_simple}
-\begin{equation}
-L_{simple}(\theta)=E_{\tau,x_0,\epsilon}[||\epsilon-\epsilon_{\theta}(\sqrt{\bar{\alpha_t}}x_0+\sqrt{1-\bar{\alpha_t}}\epsilon,t)||^2]
-\end{equation}
+$$L_{simple}(\theta)=E_{\tau,x_0,\epsilon}[||\epsilon-\epsilon_{\theta}(\sqrt{\bar{\alpha_t}}x_0+\sqrt{1-\bar{\alpha_t}}\epsilon,t)||^2]$$
 
 ## Denoising Diffusion Implicit Model--DDIM
  Reducing the inference time with DDPM is a critical concern. Denoising Diffusion Implicit Model (DDIM) \cite{song2020denoising} solves this problem while also preserving high-level features deterministically, thus facilitating noisy space interpolation.
