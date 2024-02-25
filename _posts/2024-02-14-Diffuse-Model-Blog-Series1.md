@@ -24,13 +24,13 @@ Here, $\Delta E$ is the potential, $\gamma$ is the faction coefficient, $\epsilo
 The diffuse model consists of two distinct processes: forward and reverse (generation). Understanding the diffuse process from the physical perspective reveals that the forward process mimics the diffusion of pollen particles in water. During this phase, the diffuse model consistently introduces random noise into the system. In contrast, the reverse (generation) process is designed to entirely reverse the diffusion process, allowing for the collection of pollen. This reversal entails retracing the movements or distribution of diffusing particles in the opposite direction, ultimately restoring the initial configuration.
 
 
-Mathematically, the reverse process employs Markov processes, stochastic differential equations (SDEs), or ordinary differential equations (ODEs) to reconstruct the data distribution from random noise. SDEs and ODEs are capable of approximating the solutions of discrete Markov processes since they possess the same marginal distribution. \cite{cao2022survey}
+Mathematically, the reverse process employs Markov processes, stochastic differential equations (SDEs), or ordinary differential equations (ODEs) to reconstruct the data distribution from random noise. SDEs and ODEs are capable of approximating the solutions of discrete Markov processes since they possess the same marginal distribution. (cao2022survey)
 
 # Diffuse Models
 ## Denoising Diffusion Probabilistic Models--DDPM
-The denoising probabilistic diffusion model (DDPM) \cite{ho2020denoising} is one the pioneers of the diffuse model, for which the forward and reverse process are shown in \cref{DDPM}. In the forward process $q(x_t|x_{t-1})$, noise is intentionally introduced into the original image $x_0$, until the image becomes random noise $x_T$. Conversely, in the reverse process $p_{\theta}(x_{t-1}|x_t)$, noise is systematically removed from the noisy image $x_T$, and ultimately restoring the original image. 
-![Figure(1)](/files/diffuse/Fig1-DDPM.png)
+The denoising probabilistic diffusion model (DDPM) (ho2020denoising) is one the pioneers of the diffuse model, for which the forward and reverse process are shown in Figure(1). In the forward process $q(x_t|x_{t-1})$, noise is intentionally introduced into the original image $x_0$, until the image becomes random noise $x_T$. Conversely, in the reverse process $p_{\theta}(x_{t-1}|x_t)$, noise is systematically removed from the noisy image $x_T$, and ultimately restoring the original image. 
 
+![Figure 1. The directed graphical model of DDPM (Ho et al., 2020).](/files/diffuse/Fig1-DDPM.png)
 
 **Forward Process**: the probability $q(x_{1:T}|x_0)$ of obtaining $x_T$ from the original image $x_0$ is product of $q(x_t|x_{t-1})$
 $$q(x_{1:T}|x_0)=\prod_{t=1}^{T} q(x_t|x_{t-1})$$
@@ -38,7 +38,7 @@ $q(x_t|x_{t-1})$ follows normal distribution:
 
 $$q(x_t|x_{t-1})=N(x_t;\sqrt{1-\beta_t}x_{t-1},\beta_tI)$$
 
-$\beta_t$ is diffusion rate scheduler, which controls the scale of the random noise. Expand equation \cref{eq:forward_q} 
+$\beta_t$ is diffusion rate scheduler, which controls the scale of the random noise. Expand Equation (3)
 $$x_t=\sqrt{1-\beta_t}x_{t-1}+\sqrt{\beta_t}*\epsilon$$
 in which $\epsilon \sim N(0,I)$. In this distribution $N(0,I)$ the mean is zero and standard deviation being $I$, and $I$ is an identity matrix. Without going through every single $q(x_t|x_{t-1})$, the short cut to calculate $x_t$ from $x_0$ is as follows:
 $$q(x_{1:T}|x_0)=N(x_t;\sqrt{\bar{\alpha_t}},(1-\bar{\alpha_t})I)$$
@@ -46,12 +46,19 @@ which further simplified to the following equation
 $$x_t=\sqrt{\bar{\alpha_t}}x_0+\sqrt{1-\bar{\alpha_t}}\epsilon$$
 in the equations $\alpha_t=1-\beta_t$ and $\bar{\alpha_t}=\prod_{s=1}^{t}\alpha_s$. Therefore without need to calculate $x_t$ in every single step between 0 and $T$, the equation above can calculate $x_t$ in a single step. 
 
-
 In the forward process, the conditional probability function $q(x_{t-1}|x_t,x_0)$:
-$$q(x_{t-1}|x_t,x_0)=N(x_{t-1};\tilde{\mu}_t(x_t,x_0),\tilde{\beta}_tI)$$
-in which the mean $\tilde{\mu}_t$ follows
-$$\tilde{\mu}_t(x_t,x_0)=\frac{\sqrt{\bar{\alpha}_{t-1}}\beta_t}{1-\bar{\alpha}_t}x_0+\frac{\sqrt{\alpha_{t-1}}(1-\bar{\alpha}_{t-1})}{1-\bar{\alpha}_t}x_t$$
-and $$\tilde{\beta_t}=\frac{1-\bar{\alpha}_{t-1}}{1-\bar{\alpha}_t}\beta_t$$
+$$q(x_{t-1}|x_t,x_0)=N(x_{t-1};\hat{\mu}_t(x_t,x_0),\hat{\beta}_tI)$$
+in which the mean $\hat{\mu}_t$ follows
+
+$$\hat{\mu}_t(x_t,x_0)=$$
+
+$$\frac{\sqrt{\bar{\alpha}_{t-1}}\beta_t}{1-\bar{\alpha}_t}x_0$$ 
+
+$$+\frac{\sqrt{\alpha_{t-1}}(1-\bar{\alpha}_{t-1})}{1-\bar{\alpha}_t}x_t$$
+
+and 
+
+$$\hat{\beta_t}=\frac{1-\bar{\alpha}_{t-1}}{1-\bar{\alpha}_t}\beta_t$$
 
 
 **Reverse Process**: for the reverse process, the probability $p_\theta(x_{0:T})$ from $x_T$ to $x_0$ can be expand:
@@ -60,7 +67,7 @@ $p(x_{T})$ follows normal distribution $N(x_T;0,I)$. $p_{\theta}(x_{t-1}|x_{t})$
 $$p_{\theta}(x_{t-1}|x_{t})=N(x_{t-1};\mu_{\theta}(x_{t},t),\Sigma_{\theta}(x_t,t))$$
 
 $$\Sigma_{\theta}(x_t,t)=\sigma_{t}^{2}I$$
-therefore \cref{eq:reverse_p} becomes
+therefore Equation (11) becomes
 $$p_{\theta}(x_{t-1}|x_{t})=N(x_{t-1};\mu_{\theta}(x_{t},t),\sigma_{t}^{2}I)$$
 and $\sigma_{t}^{2}$ can be ${\beta}_t$ or ${\tilde\beta}_t$.
 
@@ -69,10 +76,18 @@ The cost function should be able to lower log-likelihood, when the generated dat
 $$L_{vlb}=D_{kl}(q(x_{t-1}|x_t,x_0),p_{\theta}(x_{t-1}|x_{t}))$$
 
 
-insert \cref{eq:forward_condition_q} and equation \cref{eq:reverse_p} in to equation \cref{eq:loss}: 
-$$L_{t-1}=E_q[\frac{1}{2\sigma_t^{2}}||\tilde{\mu}_t(x_t,x_0)-\mu_{\theta}(x_t,t)||^2]$$
+insert Equation (7) and equation Equation (11) in to equation Equation (14): 
+
+$$L_{t-1}=E_q[\frac{1}{{\sigma}_t^{2}}||\hat{\mu}_t(x_t,x_0)$$
+
+$$-{\mu}_{\theta}(x_t,t)||^2]$$
+
 There are three options from here for parameterize: 1. predict $x_0$ directly 2. predict $\mu_{\theta}$ 3. predict noise $\epsilon_{\theta}$. DDPM chose to predict $\epsilon_{\theta}$ through the following parameterize function:
-$$\mu_{\theta}=\tilde{\mu}_t(x_t,x_0)=\tilde{\mu}_t(x_t,\frac{1}{\sqrt{\bar{\alpha}}}(x_t-\sqrt{1-\bar{\alpha_t}} \epsilon_{\theta}(x_t)))=\frac{1}{\sqrt{\alpha_t}}(x_t-\frac{\beta_t}{1-\bar{\alpha_t}}\epsilon_{\theta}(x_t,t))$$
+
+$$\mu_{\theta}=\hat{\mu}_t(x_t,x_0)$$
+
+$$=\frac{1}{\sqrt{\alpha_t}}(x_t-\frac{\beta_t}{1-\bar{\alpha_t}}\epsilon_{\theta}(x_t,t))$$
+
 therefore 
 $$x_{t-1}=\frac{1}{\sqrt{\alpha_t}}(x_t-\frac{\beta_t}{1-\bar{\alpha_t}}\epsilon_{\theta}(x_t,t))+\sigma_{t}z$$
 in which $z \sim N(0,I)$. The resulting loss function becomes
@@ -82,7 +97,7 @@ $$L_{simple}(\theta)=E_{\tau,x_0,\epsilon}[||\epsilon-\epsilon_{\theta}(\sqrt{\b
 
 ## Denoising Diffusion Implicit Model--DDIM
  Reducing the inference time with DDPM is a critical concern. Denoising Diffusion Implicit Model (DDIM) \cite{song2020denoising} solves this problem while also preserving high-level features deterministically, thus facilitating noisy space interpolation.
-![Figure 2](ddim)
+![Figure 2. The graphical model of DDIM (Song et al., 2020).](/files/diffuse/Fig1-DDIM.png)
 
 **Forward Process**: the forward process of DDIM maintains the same format as DDPM
 $$q_{\sigma}(x_t|x_{t-1})=N(x_t;\sqrt{1-\beta_t}x_{t-1},\beta_tI)$$
