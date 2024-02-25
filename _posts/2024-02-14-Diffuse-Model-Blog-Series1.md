@@ -30,10 +30,7 @@ Mathematically, the reverse process employs Markov processes, stochastic differe
 The diffuse model draws inspiration from non-equilibrium thermodynamics\cite{sohl2015deep}. Therefore, understanding the underlying physical processes aids in grasping the algorithm from a broader perspective. 
 
 Now, delving into the physical intuition behind the diffuse model. Imagining pollen entering a large bottle of water, the pollen gradually disperse throughout the water through Brownian motion, and eventually achieving random distribution. The motion of pollen in water can be described by the Langevin Equation, which can be simplifies to 
-\begin{equation}
-\label{eq:LE}
-x_{t+\Delta t}=x_{t}+\frac{\Delta t}{\gamma}\Delta E +\frac{\Delta t}{\gamma}\epsilon_t
-\end{equation}
+$$x_{t+\Delta t}=x_{t}+\frac{\Delta t}{\gamma}\Delta E +\frac{\Delta t}{\gamma}\epsilon_t$$
 Here, $\Delta E$ is the potential, $\gamma$ is the faction coefficient, $\epsilon_t$ is random variable that follows random distribution. In \cref{eq:LE} the second term accounts for drift of pollen driven by particle density, and the third term represents particle's random motion.
 
 
@@ -45,76 +42,39 @@ Mathematically, the reverse process employs Markov processes, stochastic differe
 # Diffuse Models
 ## Denoising Diffusion Probabilistic Models--DDPM
 The denoising probabilistic diffusion model (DDPM) \cite{ho2020denoising} is one the pioneers of the diffuse model, for which the forward and reverse process are shown in \cref{DDPM}. In the forward process $q(x_t|x_{t-1})$, noise is intentionally introduced into the original image $x_0$, until the image becomes random noise $x_T$. Conversely, in the reverse process $p_{\theta}(x_{t-1}|x_t)$, noise is systematically removed from the noisy image $x_T$, and ultimately restoring the original image. 
-\begin{figure}[ht]
-\vskip 0.2in
-\begin{center}
-\centerline{\includegraphics[width=\columnwidth]{Fig1-DDPM.png}}
-\caption{The directed graphical model of DDPM \cite{ho2020denoising}.}
-\label{DDPM}
-\end{center}
-\vskip -0.2in
-\end{figure}
+![Figure(1)](ddpm)
 
 
 **Forward Process**: the probability $q(x_{1:T}|x_0)$ of obtaining $x_T$ from the original image $x_0$ is product of $q(x_t|x_{t-1})$
-\begin{equation}
-q(x_{1:T}|x_0)=\prod_{t=1}^{T} q(x_t|x_{t-1})
-\end{equation}
+$$q(x_{1:T}|x_0)=\prod_{t=1}^{T} q(x_t|x_{t-1})$$
 $q(x_t|x_{t-1})$ follows normal distribution:
 
-\begin{equation}
-\label{eq:forward_q}
-q(x_t|x_{t-1})=N(x_t;\sqrt{1-\beta_t}x_{t-1},\beta_tI)
-\end{equation}
+$$q(x_t|x_{t-1})=N(x_t;\sqrt{1-\beta_t}x_{t-1},\beta_tI)$$
 
 $\beta_t$ is diffusion rate scheduler, which controls the scale of the random noise. Expand equation \cref{eq:forward_q} 
-\begin{equation}
-x_t=\sqrt{1-\beta_t}x_{t-1}+\sqrt{\beta_t}*\epsilon
-\end{equation}
+$$x_t=\sqrt{1-\beta_t}x_{t-1}+\sqrt{\beta_t}*\epsilon$$
 in which $\epsilon \sim N(0,I)$. In this distribution $N(0,I)$ the mean is zero and standard deviation being $I$, and $I$ is an identity matrix. Without going through every single $q(x_t|x_{t-1})$, the short cut to calculate $x_t$ from $x_0$ is as follows:
-\begin{equation}
-q(x_{1:T}|x_0)=N(x_t;\sqrt{\bar{\alpha_t}},(1-\bar{\alpha_t})I)
-\end{equation}
+$$q(x_{1:T}|x_0)=N(x_t;\sqrt{\bar{\alpha_t}},(1-\bar{\alpha_t})I)$$
 which further simplified to the following equation
-\begin{equation}
-\label{eq:forward_xt}
-x_t=\sqrt{\bar{\alpha_t}}x_0+\sqrt{1-\bar{\alpha_t}}\epsilon
-\end{equation}
+$$x_t=\sqrt{\bar{\alpha_t}}x_0+\sqrt{1-\bar{\alpha_t}}\epsilon$$
 in the equations $\alpha_t=1-\beta_t$ and $\bar{\alpha_t}=\prod_{s=1}^{t}\alpha_s$. Therefore without need to calculate $x_t$ in every single step between 0 and $T$, the equation above can calculate $x_t$ in a single step. 
 
 
 In the forward process, the conditional probability function $q(x_{t-1}|x_t,x_0)$:
-\begin{equation}
-\label{eq:forward_condition_q}
-q(x_{t-1}|x_t,x_0)=N(x_{t-1};\tilde{\mu}_t(x_t,x_0),\tilde{\beta}_t I)
-\end{equation}
-in which the mean $\tilde{\mu}_t$ follows:
-\begin{equation}
-\tilde{\mu}_t(x_t,x_0)=\frac{\sqrt{\bar{\alpha}_{t-1}}\beta_t}{1-\bar{\alpha}_t}x_0+
-\frac{\sqrt{\alpha_{t-1}}(1-\bar{\alpha}_{t-1})}{1-\bar{\alpha}_t}x_t
-\end{equation}
-and
-\begin{equation}
-\tilde{\beta_t}=\frac{1-\bar{\alpha}_{t-1}}{1-\bar{\alpha}_t}\beta_t
-\end{equation}
+$$q(x_{t-1}|x_t,x_0)=N(x_{t-1};\tilde{\mu}_t(x_t,x_0),\tilde{\beta}_tI)$$
+in which the mean $\tilde{\mu}_t$ follows
+$$\tilde{\mu}_t(x_t,x_0)=\frac{\sqrt{\bar{\alpha}_{t-1}}\beta_t}{1-\bar{\alpha}_t}x_0+\frac{\sqrt{\alpha_{t-1}}(1-\bar{\alpha}_{t-1})}{1-\bar{\alpha}_t}x_t$$
+and $$\tilde{\beta_t}=\frac{1-\bar{\alpha}_{t-1}}{1-\bar{\alpha}_t}\beta_t$$
 
 
 **Reverse Process**: for the reverse process, the probability $p_\theta(x_{0:T})$ from $x_T$ to $x_0$ can be expand:
-\begin{equation}
-p_{\theta}(x_{0:T})=p(x_{T})\prod_{t=1}^{T}p_{\theta}(x_{t-1}|x_{t})
-\end{equation}
+$$p_{\theta}(x_{0:T})=p(x_{T})\prod_{t=1}^{T}p_{\theta}(x_{t-1}|x_{t})$$
 $p(x_{T})$ follows normal distribution $N(x_T;0,I)$. $p_{\theta}(x_{t-1}|x_{t})$ follows the distribution
-\begin{equation}
-\label{eq:reverse_p}
-p_{\theta}(x_{t-1}|x_{t})=N(x_{t-1};\mu_{\theta}(x_{t},t),\Sigma_{\theta}(x_t,t))
-\end{equation}
-\begin{equation}
-\Sigma_{\theta}(x_t,t)=\sigma_{t}^{2}I
-\end{equation}
+$$p_{\theta}(x_{t-1}|x_{t})=N(x_{t-1};\mu_{\theta}(x_{t},t),\Sigma_{\theta}(x_t,t))$$
+
+$$\Sigma_{\theta}(x_t,t)=\sigma_{t}^{2}I$$
 therefore \cref{eq:reverse_p} becomes
-\begin{equation}
-p_{\theta}(x_{t-1}|x_{t})=N(x_{t-1};\mu_{\theta}(x_{t},t),\sigma_{t}^{2}I)
-\end{equation}
+$$p_{\theta}(x_{t-1}|x_{t})=N(x_{t-1};\mu_{\theta}(x_{t},t),\sigma_{t}^{2}I)$$
 and $\sigma_{t}^{2}$ can be ${\beta}_t$ or ${\tilde\beta}_t$.
 
 
