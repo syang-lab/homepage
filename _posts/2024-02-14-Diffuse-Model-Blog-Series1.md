@@ -92,12 +92,12 @@ therefore
 $$x_{t-1}=\frac{1}{\sqrt{\alpha_t}}(x_t-\frac{\beta_t}{1-\bar{\alpha_t}}\epsilon_{\theta}(x_t,t))+\sigma_{t}z$$
 in which $z \sim N(0,I)$. The resulting loss function becomes
 $$L_{simple}(\theta)=E_{\tau,x_0,\epsilon}[||\epsilon-\epsilon_{\theta}(x_t,t)||^2]$$
-insert \cref{eq:forward_xt} into \cref{eq:loss_simple}
+insert Equation (6) into Equation (18)
 $$L_{simple}(\theta)=E_{\tau,x_0,\epsilon}[||\epsilon-\epsilon_{\theta}(\sqrt{\bar{\alpha_t}}x_0+\sqrt{1-\bar{\alpha_t}}\epsilon,t)||^2]$$
 
 ## Denoising Diffusion Implicit Model--DDIM
  Reducing the inference time with DDPM is a critical concern. Denoising Diffusion Implicit Model (DDIM) \cite{song2020denoising} solves this problem while also preserving high-level features deterministically, thus facilitating noisy space interpolation.
-![Figure 2. The graphical model of DDIM (Song et al., 2020).](/files/diffuse/Fig1-DDIM.png)
+![Figure 2. The graphical model of DDIM (Song et al., 2020).](/files/diffuse/Fig2-DDIM.png)
 
 **Forward Process**: the forward process of DDIM maintains the same format as DDPM
 $$q_{\sigma}(x_t|x_{t-1})=N(x_t;\sqrt{1-\beta_t}x_{t-1},\beta_tI)$$
@@ -105,26 +105,29 @@ $$q_{\sigma}(x_t|x_{t-1})=N(x_t;\sqrt{1-\beta_t}x_{t-1},\beta_tI)$$
 $$x_t=\sqrt{1-\beta_t}x_{t-1}+\sqrt{\beta_t}*\epsilon$$
 in which $\epsilon \sim N(0,I)$.
 
-$$q_{\sigma}(x_{t-1}|x_t,x_0)=N(\sqrt{\bar{\alpha}_{t-1}}x_0+\sqrt{1-\bar{\alpha}_{t-1}-\sigma_t^2}\frac{x_t-\sqrt{\bar{\alpha}_t}x_0}{\sqrt{1-\alpha_t}},\sigma_t^2 I)$$
+$$q_{\sigma}(x_{t-1}|x_t,x_0)=N(\sqrt{\bar{\alpha_{t-1}}}x_0+\sqrt{1-\bar{\alpha}_{t-1}-\sigma_t^2}\frac{x_t-\sqrt{\bar{\alpha}_t}x_0}{\sqrt{1-\alpha_t}},\sigma_t^2 I)$$
+
 When $\sigma_{t}=0$, the generative process is DDIM, which is a deterministic probabilistic process and $q_{\sigma}(x_t|x_0)$ becomes fixed matrix.
 
 **Reverse Process**: $p(x_T)\sim N(0,I)$ and 
-$$f_{\theta}(x_t,t)=\frac{(x_t-\sqrt{1-\bar{\alpha}_t} \epsilon_{\theta}(x_t,t))}{\sqrt{\bar{\alpha}_t}}$$
+$$f_{\theta}(x_t,t)=\frac{(x_t-\sqrt{1-\bar{\alpha_t}} \epsilon_{\theta}(x_t,t))}{\sqrt{\bar{\alpha}_t}}$$
 
-$$p_{\theta}(x_{t-1}|x_t,t)=N(f_{\theta}(x_1,t),\sigma^2I) &\text{if $t=1$} q_{\sigma}(x_{t-1}|x_t,f_{\theta}(x_t,t))$$
+if $t=1$, $p_{\theta}(x_{t-1}|x_t,t)=N(f_{\theta}(x_1,t),\sigma^2I)$ else $q_{\sigma}(x_{t-1}|x_t,f_{\theta}(x_t,t))$
 
-$$x_{t-1}=\sqrt{\bar{\alpha}_{t-1}}(\frac{(x_t-\sqrt{1-\bar{\alpha}_t} \epsilon_{\theta}(x_t,t))}{\sqrt{\bar{\alpha}_t}})+\sqrt{1-\bar{\alpha}_{t-1}-\sigma_t^2}\epsilon_{\theta}(x_t,t)+\sigma_t\epsilon_t$$
+$$x_{t-1}=\sqrt{\bar{\alpha_{t-1}}}(\frac{(x_t-\sqrt{1-\bar{\alpha_t}} \epsilon_{\theta}(x_t,t))}{\sqrt{\bar{\alpha_t}}})$$
+
+$$+(\sqrt{1-\bar{\alpha_{t-1}}-{\sigma_t}^2})\epsilon_\theta(x_t,t)+\sigma_t{\epsilon}_t$$
 
 When 
-$$\sigma_t=\sqrt{\frac{1-\bar{\alpha}_{t-1}}{1-\bar{\alpha}_t}}\sqrt{\frac{1-\bar{\alpha}_t}{\bar{\alpha}_{t-1}}}$$
+$$\sigma_t=\sqrt{\frac{1-\bar{\alpha_{t-1}}}{1-\bar{\alpha_t}}}\sqrt{\frac{1-\bar{\alpha_t}}{\bar{\alpha_{t-1}}}}$$
 
-the reverse process corresponds to DDPM. Whereas, when $\sigma_{t}=0$, $p_{\theta}(x_{t-1}|x_t,t)$ became deterministic, the reverse process can generate $x_0$ according to the scheduling $\tau$. $\tau$ can be smaller then $T$, hence DDIM can reduce the sampling time. The graphical model is in \cref{DDIM}.
+the reverse process corresponds to DDPM. Whereas, when $\sigma_{t}=0$, $p_{\theta}(x_{t-1}|x_t,t)$ became deterministic, the reverse process can generate $x_0$ according to the scheduling $\tau$. $\tau$ can be smaller then $T$, hence DDIM can reduce the sampling time. The graphical model is in Figure 2.
 
 ## Latent Diffuse Model
-Latent diffuse model can further reduced the time of forward and reverse process though performing the diffuse in the latent space without reducing the synthesis quality
-\cite{rombach2022high}. The architecture of latent diffuse model is shown in \cref{LD}. The latent diffuse model include two stages, the first stage contains a VAE \cite{razavi2019generating} or VQGAN \cite{esser2021taming} model. The encoder $\varepsilon$ encoded $x$ into the latent space $z$, the decoder $D$ decode $z$ into the image space. In the second stage, forward and reverse diffusion happens in the latent space $z$,  hence reducing the training and inference time. The conditions are added to the diffusion model after embedded using encoder $\tau_{\theta}$, the encoded conditions are query in the cross-attention layers of the modified Unet $\epsilon_{\theta}$ model.
+Latent diffuse model can further reduced the time of forward and reverse process though performing the diffuse in the latent space without reducing the synthesis quality (rombach2022high). The architecture of latent diffuse model is shown in \cref{LD}. The latent diffuse model include two stages, the first stage contains a VAE \cite{razavi2019generating} or VQGAN (esser2021taming) model. The encoder $\varepsilon$ encoded $x$ into the latent space $z$, the decoder $D$ decode $z$ into the image space. In the second stage, forward and reverse diffusion happens in the latent space $z$,  hence reducing the training and inference time. The conditions are added to the diffusion model after embedded using encoder $\tau_{\theta}$, the encoded conditions are query in the cross-attention layers of the modified Unet $\epsilon_{\theta}$ model.
 
-![Figure 3](latend diffuse)
+
+![Figure 1. The directed graphical model of DDPM (Ho et al., 2020).](/files/diffuse/Fig1-DDPM.png)
 
 
 # Conditioned Diffuse Model and Guided Generation
