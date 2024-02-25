@@ -13,7 +13,12 @@ This blog aims to review the physical intuition behind the diffuse
 model, systematically summarize the mathematics underlying DDPM and DDIM
 models, and examine the algorithms used in guided image generation.
 
-# Physicals of Diffuse Model
+# Physics Underline Diffuse Model
+<figure>
+<img src="/files/diffuse/physics_underline_diffuse_model.png" id="DDPM" alt="The directed graphical model of DDPM ." />
+</figure>
+
+
 
 The diffuse model draws inspiration from non-equilibrium thermodynamics.
 Therefore, understanding the underlying physical processes aids in
@@ -51,6 +56,7 @@ are capable of approximating the solutions of discrete Markov processes
 since they possess the same marginal distribution.
 
 # Diffuse Models
+
 
 ## Denoising Diffusion Probabilistic Models–DDPM
 
