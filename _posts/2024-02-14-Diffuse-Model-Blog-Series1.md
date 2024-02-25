@@ -82,78 +82,34 @@ $$L_{simple}(\theta)=E_{\tau,x_0,\epsilon}[||\epsilon-\epsilon_{\theta}(\sqrt{\b
 
 ## Denoising Diffusion Implicit Model--DDIM
  Reducing the inference time with DDPM is a critical concern. Denoising Diffusion Implicit Model (DDIM) \cite{song2020denoising} solves this problem while also preserving high-level features deterministically, thus facilitating noisy space interpolation.
-\begin{figure}[ht]
-\vskip 0.2in
-\begin{center}
-\centerline{\includegraphics[width=\columnwidth]{Fig2-DDIM.png}}
-\caption{The graphical model of DDIM \cite{song2020denoising}.}
-\label{DDIM}
-\end{center}
-\vskip -0.2in
-\end{figure}
+![Figure 2](ddim)
 
 **Forward Process**: the forward process of DDIM maintains the same format as DDPM
-\begin{equation}
-\label{eq:q_forward}
-q_{\sigma}(x_t|x_{t-1})=N(x_t;\sqrt{1-\beta_t}x_{t-1},\beta_tI)
-\end{equation}
+$$q_{\sigma}(x_t|x_{t-1})=N(x_t;\sqrt{1-\beta_t}x_{t-1},\beta_tI)$$
 
-\begin{equation}
-x_t=\sqrt{1-\beta_t}x_{t-1}+\sqrt{\beta_t}*\epsilon
-\end{equation}
+$$x_t=\sqrt{1-\beta_t}x_{t-1}+\sqrt{\beta_t}*\epsilon$$
 in which $\epsilon \sim N(0,I)$.
 
-\begin{equation}
-\begin{aligned}
-q_{\sigma}(x_{t-1}|x_t,x_0)=\\
-N(
-\sqrt{\bar{\alpha}_{t-1}}x_0+\sqrt{1-\bar{\alpha}_{t-1}-\sigma_t^2}\frac{x_t-\sqrt{\bar{\alpha}_t}x_0}{\sqrt{1-\alpha_t}},
-\sigma_t^2 I
-)
-\end{aligned}
-\end{equation}
+$$q_{\sigma}(x_{t-1}|x_t,x_0)=N(\sqrt{\bar{\alpha}_{t-1}}x_0+\sqrt{1-\bar{\alpha}_{t-1}-\sigma_t^2}\frac{x_t-\sqrt{\bar{\alpha}_t}x_0}{\sqrt{1-\alpha_t}},\sigma_t^2 I)$$
 When $\sigma_{t}=0$, the generative process is DDIM, which is a deterministic probabilistic process and $q_{\sigma}(x_t|x_0)$ becomes fixed matrix.
 
 **Reverse Process**: $p(x_T)\sim N(0,I)$ and 
-\begin{equation}
-f_{\theta}(x_t,t)=\frac{(x_t-\sqrt{1-\bar{\alpha}_t} \epsilon_{\theta}(x_t,t))}{\sqrt{\bar{\alpha}_t}}
-\end{equation}
+$$f_{\theta}(x_t,t)=\frac{(x_t-\sqrt{1-\bar{\alpha}_t} \epsilon_{\theta}(x_t,t))}{\sqrt{\bar{\alpha}_t}}$$
 
-\begin{equation}
-p_{\theta}(x_{t-1}|x_t,t)=
-\begin{cases}
-N(f_{\theta}(x_1,t),\sigma^2I) &\text{if $t=1$} \\
-q_{\sigma}(x_{t-1}|x_t,f_{\theta}(x_t,t)) 
-\end{cases}
-\end{equation}
+$$p_{\theta}(x_{t-1}|x_t,t)=N(f_{\theta}(x_1,t),\sigma^2I) &\text{if $t=1$} q_{\sigma}(x_{t-1}|x_t,f_{\theta}(x_t,t))$$
 
+$$x_{t-1}=\sqrt{\bar{\alpha}_{t-1}}(\frac{(x_t-\sqrt{1-\bar{\alpha}_t} \epsilon_{\theta}(x_t,t))}{\sqrt{\bar{\alpha}_t}})+\sqrt{1-\bar{\alpha}_{t-1}-\sigma_t^2}\epsilon_{\theta}(x_t,t)+\sigma_t\epsilon_t$$
 
-\begin{equation}
-\begin{aligned}
-x_{t-1}=\sqrt{\bar{\alpha}_{t-1}}(\frac{(x_t-\sqrt{1-\bar{\alpha}_t} \epsilon_{\theta}(x_t,t))}{\sqrt{\bar{\alpha}_t}})+\\
-\sqrt{1-\bar{\alpha}_{t-1}-\sigma_t^2}\epsilon_{\theta}(x_t,t)+\sigma_t\epsilon_t
-\end{aligned}
-\end{equation}
 When 
-\begin{equation}
-\sigma_t=\sqrt{\frac{1-\bar{\alpha}_{t-1}}{1-\bar{\alpha}_t}} \sqrt{\frac{1-\bar{\alpha}_t}{\bar{\alpha}_{t-1}}}
-\end{equation}
-the reverse process corresponds to DDPM. Whereas, when $\sigma_{t}=0$, $p_{\theta}(x_{t-1}|x_t,t)$ became deterministic, the reverse process can generate $x_0$ according to the scheduling $\tau$. $\tau$ can be smaller then $T$, hence DDIM can reduce the sampling time. The graphical model is in \cref{DDIM}.
+$$\sigma_t=\sqrt{\frac{1-\bar{\alpha}_{t-1}}{1-\bar{\alpha}_t}}\sqrt{\frac{1-\bar{\alpha}_t}{\bar{\alpha}_{t-1}}}$$
 
+the reverse process corresponds to DDPM. Whereas, when $\sigma_{t}=0$, $p_{\theta}(x_{t-1}|x_t,t)$ became deterministic, the reverse process can generate $x_0$ according to the scheduling $\tau$. $\tau$ can be smaller then $T$, hence DDIM can reduce the sampling time. The graphical model is in \cref{DDIM}.
 
 ## Latent Diffuse Model
 Latent diffuse model can further reduced the time of forward and reverse process though performing the diffuse in the latent space without reducing the synthesis quality
 \cite{rombach2022high}. The architecture of latent diffuse model is shown in \cref{LD}. The latent diffuse model include two stages, the first stage contains a VAE \cite{razavi2019generating} or VQGAN \cite{esser2021taming} model. The encoder $\varepsilon$ encoded $x$ into the latent space $z$, the decoder $D$ decode $z$ into the image space. In the second stage, forward and reverse diffusion happens in the latent space $z$,  hence reducing the training and inference time. The conditions are added to the diffusion model after embedded using encoder $\tau_{\theta}$, the encoded conditions are query in the cross-attention layers of the modified Unet $\epsilon_{\theta}$ model.
 
-\begin{figure}[ht]
-\vskip 0.2in
-\begin{center}
-\centerline{\includegraphics[width=\columnwidth]{Fig3-LD.png}}
-\caption{The architecture of latent diffuse model \cite{rombach2022high}}
-\label{LD}
-\end{center}
-\vskip -0.2in
-\end{figure}
+![Figure 3](latend diffuse)
 
 
 # Conditioned Diffuse Model and Guided Generation
@@ -163,25 +119,16 @@ The conditional diffuse model depends not only on $x_t$ and $t$ but also on the 
 ## Classier Guidance
 In the classifier-guided diffuse model \cite{dhariwal2021diffusion}, an additional classifier model 
 $p_{\phi}$ needs to be trained to guide the generation process. Specifically, the derivative of the log probability is injected into the reverse process to guide generation. The following equation demonstrates the modification of the reverse process of the DDPM model: 
-\begin{equation}
-x_{t-1} \sim N(\mu_t+s\nabla_{x_t} log p_{\phi}(c|x_t),\Sigma_t)
-\end{equation}
+$$x_{t-1} \sim N(\mu_t+s\nabla_{x_t} log p_{\phi}(c|x_t),\Sigma_t)$$
 in which s is the scaling factor that controls the strength of guidance and $log p_{\phi}(c|x_t)$ is log probability of classifier model. Meanwhile, the reverse process of DDIM follow the equations below:
-\begin{equation}
-\hat{\epsilon}={\epsilon}(x_t)-\sqrt{1-\bar{\alpha_t}}\nabla_{x_t}logp_{\phi}(c|x_t)
-\end{equation}
+$$\hat{\epsilon}={\epsilon}(x_t)-\sqrt{1-\bar{\alpha_t}}\nabla_{x_t}logp_{\phi}(c|x_t)$$
 
-\begin{equation}
-x_{t-1}=\sqrt{\bar{\alpha}_{t-1}}
-\frac{x_t-\sqrt{1-\bar{\alpha_t}}\hat{\varepsilon}}{\bar{\alpha_t}}+\sqrt{1-\bar{\alpha}_{t-1}}\hat{\varepsilon}
-\end{equation}
+$$x_{t-1}=\sqrt{\bar{\alpha}_{t-1}}\frac{x_t-\sqrt{1-\bar{\alpha_t}}\hat{\varepsilon}}{\bar{\alpha_t}}+\sqrt{1-\bar{\alpha}_{t-1}}\hat{\varepsilon}$$
 
 ## Classifier-Free Guidance
 In the classifier-free guidance process \cite{ho2022classifier}, there is no need to train an additional model. Instead, the conditional and unconditional diffuse models are jointly trained. The condition $c$ will be randomly replaced with $\emptyset$ during training, with the noise model following the equation below
 
-\begin{equation}
-\bar{\epsilon}_{\theta}(x_t|c)={\epsilon}_{\theta}(x_t|\emptyset)+s({\epsilon}_{\theta}(x_t|c)-{\epsilon}_{\theta}(x_t|\emptyset))
-\end{equation}
+$$\bar{\epsilon}_{\theta}(x_t|c)={\epsilon}_{\theta}(x_t|\emptyset)+s({\epsilon}_{\theta}(x_t|c)-{\epsilon}_{\theta}(x_t|\emptyset))$$
 in which $s$ is the guidance scale. The classifier-free guidance guides the generation process by leveraging the disparity between conditional generation and unconditional generation outcomes.
 
 
