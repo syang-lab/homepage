@@ -26,23 +26,23 @@ Mathematically, the reverse process employs Markov processes, stochastic differe
 # Diffuse Models
 ## Denoising Diffusion Probabilistic Models--DDPM
 
-The denoising probabilistic diffusion model (DDPM) (Ho et al., 2020) is one the pioneers of the diffuse model, for which the forward and reverse process are shown in Figure 1. In the forward process $(q(x_t\|x_{t-1}))$, noise is intentionally introduced into the original image \(x_0)\, until the image becomes random noise \(x_T)\. Conversely, in the reverse process \(p_{\theta}(x_{t-1}|x_t))\, noise is systematically removed from the noisy image \(x_T)\, and ultimately restoring the original image. 
+The denoising probabilistic diffusion model (DDPM) (Ho et al., 2020) is one the pioneers of the diffuse model, for which the forward and reverse process are shown in Figure 1. In the forward process $(q(x_t\|x_{t-1}))$, noise is intentionally introduced into the original image \(x_0)\, until the image becomes random noise \(x_T)\. Conversely, in the reverse process \(p_{\theta}(x_{t-1}\|x_t))\, noise is systematically removed from the noisy image \(x_T)\, and ultimately restoring the original image. 
 
 ![Figure 1. The directed graphical model of DDPM (Ho et al., 2020).](/files/diffuse/Fig1-DDPM.png)
 
 **Forward Process**: the probability $q(x_{1:T}\|x_0)$ of obtaining $x_T$ from the original image $x_0$ is product of $q(x_t\|x_{t-1})$
 
-$$q(x_{1:T}|x_0)=\prod_{t=1}^{T} q(x_t|x_{t-1}) \tag{2} $$
+$$q(x_{1:T}|x_0)=\prod_{t=1}^{T} q(x_t\|x_{t-1}) \tag{2} $$
 
-$q(x_t|x_{t-1})$ follows normal distribution:
+$q(x_t\|x_{t-1})$ follows normal distribution:
 
-$$q(x_t|x_{t-1})=N(x_t;\sqrt{1-\beta_t}x_{t-1},\beta_tI) \tag{3} $$
+$$q(x_t\|x_{t-1})=N(x_t;\sqrt{1-\beta_t}x_{t-1},\beta_tI) \tag{3} $$
 
 $\beta_t$ is diffusion rate scheduler, which controls the scale of the random noise. Expand Equation (3)
 
 $$x_t=\sqrt{1-\beta_t}x_{t-1}+\sqrt{\beta_t}*\epsilon \tag{4} $$
 
-in which $\epsilon \sim N(0,I)$. In this distribution $N(0,I)$ the mean is zero and standard deviation being $I$, and $I$ is an identity matrix. Without going through every single $q(x_t|x_{t-1})$, the short cut to calculate $x_t$ from $x_0$ is as follows:
+in which $\epsilon \sim N(0,I)$. In this distribution $N(0,I)$ the mean is zero and standard deviation being $I$, and $I$ is an identity matrix. Without going through every single $q(x_t\|x_{t-1})$, the short cut to calculate $x_t$ from $x_0$ is as follows:
 
 $$q(x_{1:T}|x_0)=N(x_t;\sqrt{\bar{\alpha_t}},(1-\bar{\alpha_t})I) \tag{5} $$
 
@@ -52,7 +52,7 @@ $$x_t=\sqrt{\bar{\alpha_t}}x_0+\sqrt{1-\bar{\alpha_t}}\epsilon \tag{6} $$
 
 in the equations $\alpha_t=1-\beta_t$ and $\bar{\alpha_t}=\prod_{s=1}\alpha_s$. Therefore without need to calculate $x_t$ in every single step between 0 and $T$, the equation above can calculate $x_t$ in a single step. 
 
-In the forward process, the conditional probability function $q(x_{t-1}|x_t,x_0)$:
+In the forward process, the conditional probability function $q(x_{t-1}\|x_t,x_0)$:
 
 $$q(x_{t-1}|x_t,x_0)=N(x_{t-1};\hat{\mu}_t(x_t,x_0),\hat{\beta}_tI) \tag{7} $$
 
@@ -69,7 +69,7 @@ $$\hat{\beta_t}=\frac{1-\bar{\alpha}_{t-1}}{1-\bar{\alpha}_t}\beta_t \tag{9} $$
 
 $$p_{\theta}(x_{0:T})=p(x_{T})\prod_{t=1}^{T}p_{\theta}(x_{t-1}|x_{t}) \tag{10} $$
 
-$p(x_{T})$ follows normal distribution $N(x_T;0,I)$. $p_{\theta}(x_{t-1}|x_{t})$ follows the distribution
+$p(x_{T})$ follows normal distribution $N(x_T;0,I)$. $p_{\theta}(x_{t-1}\|x_{t})$ follows the distribution
 
 $$p_{\theta}(x_{t-1}|x_{t})=N(x_{t-1};\mu_{\theta}(x_{t},t),\Sigma_{\theta}(x_t,t)) \tag{11} $$
 
@@ -121,13 +121,13 @@ in which $\epsilon \sim N(0,I)$.
 
 $$q_{\sigma}(x_{t-1}|x_t,x_0)=N(\sqrt{\bar\alpha_{t-1}}x_0+\sqrt{1-\bar\alpha_{t-1}-\sigma_t^2}\frac{x_t-\sqrt{\bar\alpha_t}x_0}{\sqrt{1-\alpha_t}},\sigma_t^2 I) \tag{22} $$
 
-When $\sigma_{t}=0$, the generative process is DDIM, which is a deterministic probabilistic process and $q_{\sigma}(x_t|x_0)$ becomes fixed matrix.
+When $\sigma_{t}=0$, the generative process is DDIM, which is a deterministic probabilistic process and $q_{\sigma}(x_t\|x_0)$ becomes fixed matrix.
 
 **Reverse Process**: $p(x_T)\sim N(0,I)$ and 
 
 $$f_{\theta}(x_t,t)=\frac{x_t-\sqrt{1-\bar\alpha_t}\epsilon_{\theta}(x_t,t)}{\sqrt{\bar\alpha_t}} \tag{23} $$
 
-if $t=1$, $p_{\theta}(x_{t-1}|x_t,t)=N(f_{\theta}(x_1,t),\sigma^2I)$ else $q_{\sigma}(x_{t-1}|x_t,f_{\theta}(x_t,t)) \tag{24} $
+if $t=1$, $p_{\theta}(x_{t-1}\|x_t,t)=N(f_{\theta}(x_1,t),\sigma^2I)$ else $q_{\sigma}(x_{t-1}\|x_t,f_{\theta}(x_t,t)) \tag{24} $
 
 $$x_{t-1}=\sqrt{\bar\alpha_{t-1}}\frac{x_t-\sqrt{1-\bar\alpha_t}\epsilon_{\theta}(x_t,t)}{\sqrt{\bar\alpha_t}}+(\sqrt{1-\bar\alpha_{t-1}}-{\sigma_t}^2)\epsilon_\theta(x_t,t)+\sigma_t{\epsilon}_t \tag{25} $$
 
@@ -135,7 +135,7 @@ When
 
 $$\sigma_t=\sqrt{\frac{1-\bar\alpha_{t-1}}{1-\bar\alpha_t}}\sqrt{\frac{1-\bar\alpha_t}{\bar\alpha_{t-1}}} \tag{26} $$
 
-the reverse process corresponds to DDPM. Whereas, when $\sigma_{t}=0$, $p_{\theta}(x_{t-1}|x_t,t)$ became deterministic, the reverse process can generate $x_0$ according to the scheduling $\tau$. $\tau$ can be smaller then $T$, hence DDIM can reduce the sampling time. The graphical model is in Figure 2.
+the reverse process corresponds to DDPM. Whereas, when $\sigma_{t}=0$, $p_{\theta}(x_{t-1}\|x_t,t)$ became deterministic, the reverse process can generate $x_0$ according to the scheduling $\tau$. $\tau$ can be smaller then $T$, hence DDIM can reduce the sampling time. The graphical model is in Figure 2.
 
 ## Latent Diffuse Model
 Latent diffuse model can further reduced the time of forward and reverse process though performing the diffuse in the latent space without reducing the synthesis quality (Rombach et al., 2022). The architecture of latent diffuse model is shown in Figure 3. The latent diffuse model include two stages, the first stage contains a VAE (Razavi et al., 2019) or VQGAN  (Esser et al., 2021) model. The encoder $\varepsilon$ encoded $x$ into the latent space $z$, the decoder $D$ decode $z$ into the image space. In the second stage, forward and reverse diffusion happens in the latent space $z$,  hence reducing the training and inference time. The conditions are added to the diffusion model after embedded using encoder $\tau_{\theta}$, the encoded conditions are query in the cross-attention layers of the modified Unet $\epsilon_{\theta}$ model.
