@@ -33,7 +33,7 @@ The denoising probabilistic diffusion model (DDPM) (Ho et al., 2020) is one the 
 
 **Forward Process**: the probability \\(q(x_{1:T}|x_0)\\) of obtaining \\(x_T\\) from the original image \\(x_0\\) is product of \\(q(x_t|x_{t-1})\\)
 
-$$q(x_{1:T}|x_0)=\prod_{t=1}^{T} q(x_t\|x_{t-1}) \tag{2} $$
+$$q(x_{1:T}|x_0)=\prod_{t=1}^{T} q(x_t|x_{t-1}) \tag{2} $$
 
 \\(q(x_t|x_{t-1})\\) follows normal distribution:
 
@@ -54,7 +54,7 @@ $$x_t=\sqrt{\bar{\alpha_t}}x_0+\sqrt{1-\bar{\alpha_t}}\epsilon \tag{6} $$
 
 in the equations \\(\alpha_t=1-\beta_t\\) and \\(\bar{\alpha_t}=\prod_{s=1}\alpha_s\\). Therefore without need to calculate \\(x_t\\) in every single step between 0 and \\(T\\), the equation above can calculate \\(x_t\\) in a single step. 
 
-In the forward process, the conditional probability function \\(q(x_{t-1}\|x_t,x_0)\\):
+In the forward process, the conditional probability function \\(q(x_{t-1}|x_t,x_0)\\):
 
 $$q(x_{t-1}|x_t,x_0)=N(x_{t-1};\hat{\mu}_t(x_t,x_0),\hat{\beta}_tI) \tag{7} $$
 
