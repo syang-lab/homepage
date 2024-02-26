@@ -26,16 +26,16 @@ Mathematically, the reverse process employs Markov processes, stochastic differe
 # Diffuse Models
 ## Denoising Diffusion Probabilistic Models--DDPM
 
-The denoising probabilistic diffusion model (DDPM) (Ho et al., 2020) is one the pioneers of the diffuse model, for which the forward and reverse process are shown in Figure 1. In the forward process \\(q(x_t|x_{t-1})\\), noise is intentionally introduced into the original image \\(x_0\\), until the image becomes random noise \\(x_T\\). Conversely, in the reverse process \\(p_{\theta}(x_{t-1}\|x_t)\\), noise is systematically removed from the noisy image \\(x_T\\), and ultimately restoring the original image. 
+The denoising probabilistic diffusion model (DDPM) (Ho et al., 2020) is one the pioneers of the diffuse model, for which the forward and reverse process are shown in Figure 1. In the forward process \\(q(x_t\|x_{t-1})\\), noise is intentionally introduced into the original image \\(x_0\\), until the image becomes random noise \\(x_T\\). Conversely, in the reverse process \\(p_{\theta}(x_{t-1}\|x_t)\\), noise is systematically removed from the noisy image \\(x_T\\), and ultimately restoring the original image. 
 
-<img src="/files/diffuse/Fig1-DDPM.png" class="img-responsive" alt="">
-<img src="/images/500x300.png" class="img-responsive" alt="">
+<img src="/files/diffuse/Fig1-DDPM.png" alt="">
+<img src="/images/500x300.png" alt="">
 
-**Forward Process**: the probability \\(q(x_{1:T}|x_0)\\) of obtaining \\(x_T\\) from the original image \\(x_0\\) is product of \\(q(x_t|x_{t-1})\\)
+**Forward Process**: the probability \\(q(x_{1:T}\|x_0)\\) of obtaining \\(x_T\\) from the original image \\(x_0\\) is product of \\(q(x_t\|x_{t-1})\\)
 
 $$q(x_{1:T}|x_0)=\prod_{t=1}^{T} q(x_t|x_{t-1}) \tag{2} $$
 
-\\(q(x_t|x_{t-1})\\) follows normal distribution:
+\\(q(x_t\|x_{t-1})\\) follows normal distribution:
 
 $$q(x_t\|x_{t-1})=N(x_t;\sqrt{1-\beta_t}x_{t-1},\beta_tI) \tag{3} $$
 
@@ -44,7 +44,7 @@ $$q(x_t\|x_{t-1})=N(x_t;\sqrt{1-\beta_t}x_{t-1},\beta_tI) \tag{3} $$
 $$x_t=\sqrt{1-\beta_t}x_{t-1}+\sqrt{\beta_t}*\epsilon \tag{4} $$
 
 in which \\(\epsilon \sim N(0,I)\\). In this distribution \\((N(0,I)\\) the mean is zero and standard deviation being \\(I\\), and \\(I\\) is an identity matrix. Without going through every single 
-\\(q(x_t|x_{t-1})\\), the short cut to calculate \\(x_t\\) from \\(x_0\\) is as follows:
+\\(q(x_t\|x_{t-1})\\), the short cut to calculate \\(x_t\\) from \\(x_0\\) is as follows:
 
 $$q(x_{1:T}|x_0)=N(x_t;\sqrt{\bar{\alpha_t}},(1-\bar{\alpha_t})I) \tag{5} $$
 
@@ -54,7 +54,7 @@ $$x_t=\sqrt{\bar{\alpha_t}}x_0+\sqrt{1-\bar{\alpha_t}}\epsilon \tag{6} $$
 
 in the equations \\(\alpha_t=1-\beta_t\\) and \\(\bar{\alpha_t}=\prod_{s=1}\alpha_s\\). Therefore without need to calculate \\(x_t\\) in every single step between 0 and \\(T\\), the equation above can calculate \\(x_t\\) in a single step. 
 
-In the forward process, the conditional probability function \\(q(x_{t-1}|x_t,x_0)\\):
+In the forward process, the conditional probability function \\(q(x_{t-1}\|x_t,x_0)\\):
 
 $$q(x_{t-1}|x_t,x_0)=N(x_{t-1};\hat{\mu}_t(x_t,x_0),\hat{\beta}_tI) \tag{7} $$
 
