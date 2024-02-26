@@ -43,7 +43,8 @@ $$q(x_t\|x_{t-1})=N(x_t;\sqrt{1-\beta_t}x_{t-1},\beta_tI) \tag{3} $$
 
 $$x_t=\sqrt{1-\beta_t}x_{t-1}+\sqrt{\beta_t}*\epsilon \tag{4} $$
 
-in which \\(\epsilon \sim N(0,I)\\). In this distribution \\((N(0,I)\\) the mean is zero and standard deviation being \\(I\\), and \\(I\\) is an identity matrix. Without going through every single \\(q(x_t|x_{t-1})\\), the short cut to calculate \\(x_t\\) from \\(x_0\\) is as follows:
+in which \\(\epsilon \sim N(0,I)\\). In this distribution \\((N(0,I)\\) the mean is zero and standard deviation being \\(I\\), and \\(I\\) is an identity matrix. Without going through every single 
+\\(q(x_t|x_{t-1})\\), the short cut to calculate \\(x_t\\) from \\(x_0\\) is as follows:
 
 $$q(x_{1:T}|x_0)=N(x_t;\sqrt{\bar{\alpha_t}},(1-\bar{\alpha_t})I) \tag{5} $$
 
@@ -80,10 +81,10 @@ therefore Equation (11) becomes
 
 $$p_{\theta}(x_{t-1}|x_{t})=N(x_{t-1};\mu_{\theta}(x_{t},t),\sigma_{t}^{2}I) \tag{13} $$
 
-and \\(\sigma_{t}^{2}$ can be ${\beta}_t$ or ${\tilde\beta}_t\\).
+and \\(\sigma_{t}^{2}\\) can be \\({\beta}_t\\) or \\(\tilde\beta_t\\).
 
 
-The cost function should be able to lower log-likelihood, when the generated data belonging to the same distribution as the original data. Then, the cost function is simplified to calculate the lower bond (VLB) of log-likelihood: \\(L_{VLB}=L_{0}+...L_{t-1}+...L_{T}$, $L_{T}\\) is constant and it turns out better results are obtained without \\(L_{0}\\) term. Therefore, the only term left is \\(L_{t}\\):
+The cost function should be able to lower log-likelihood, when the generated data belonging to the same distribution as the original data. Then, the cost function is simplified to calculate the lower bond (VLB) of log-likelihood: \\(L_{VLB}=L_{0}+...L_{t-1}+...L_{T}\\), \\(L_{T}\\) is constant and it turns out better results are obtained without \\(L_{0}\\) term. Therefore, the only term left is \\(L_{t}\\):
 
 $$L_{vlb}=D_{kl}(q(x_{t-1}|x_t,x_0),p_{\theta}(x_{t-1}|x_{t})) \tag{14} $$
 
