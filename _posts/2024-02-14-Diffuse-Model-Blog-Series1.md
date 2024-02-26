@@ -17,7 +17,7 @@ Now, delving into the physical intuition behind the diffuse model. Imagining pol
 
 $$x_{t+\Delta t}=x_{t}+\frac{\Delta t}{\gamma}\Delta E +\frac{\Delta t}{\gamma}\epsilon_t \tag{1} $$
 
-Here, \(\Delta E\) is the potential, $\gamma$ is the faction coefficient, $\epsilon_t$ is random variable that follows random distribution. In Equation (1) the second term accounts for drift of pollen driven by particle density, and the third term represents particle's random motion.
+Here, \\(\Delta E\\) is the potential, $\gamma$ is the faction coefficient, $\epsilon_t$ is random variable that follows random distribution. In Equation (1) the second term accounts for drift of pollen driven by particle density, and the third term represents particle's random motion.
 
 The diffuse model consists of two distinct processes: forward and reverse (generation). Understanding the diffuse process from the physical perspective reveals that the forward process mimics the diffusion of pollen particles in water. During this phase, the diffuse model consistently introduces random noise into the system. In contrast, the reverse (generation) process is designed to entirely reverse the diffusion process, allowing for the collection of pollen. This reversal entails retracing the movements or distribution of diffusing particles in the opposite direction, ultimately restoring the initial configuration.
 
@@ -26,11 +26,11 @@ Mathematically, the reverse process employs Markov processes, stochastic differe
 # Diffuse Models
 ## Denoising Diffusion Probabilistic Models--DDPM
 
-The denoising probabilistic diffusion model (DDPM) (Ho et al., 2020) is one the pioneers of the diffuse model, for which the forward and reverse process are shown in Figure 1. In the forward process \(q(x_t|x_{t-1}))\, noise is intentionally introduced into the original image \(x_0)\, until the image becomes random noise \(x_T)\. Conversely, in the reverse process \(p_{\theta}(x_{t-1}|x_t))\, noise is systematically removed from the noisy image \(x_T)\, and ultimately restoring the original image. 
+The denoising probabilistic diffusion model (DDPM) (Ho et al., 2020) is one the pioneers of the diffuse model, for which the forward and reverse process are shown in Figure 1. In the forward process $(q(x_t\|x_{t-1}))$, noise is intentionally introduced into the original image \(x_0)\, until the image becomes random noise \(x_T)\. Conversely, in the reverse process \(p_{\theta}(x_{t-1}|x_t))\, noise is systematically removed from the noisy image \(x_T)\, and ultimately restoring the original image. 
 
 ![Figure 1. The directed graphical model of DDPM (Ho et al., 2020).](/files/diffuse/Fig1-DDPM.png)
 
-**Forward Process**: the probability $q(x_{1:T}|x_0)$ of obtaining $x_T$ from the original image $x_0$ is product of $q(x_t|x_{t-1})$
+**Forward Process**: the probability $q(x_{1:T}\|x_0)$ of obtaining $x_T$ from the original image $x_0$ is product of $q(x_t\|x_{t-1})$
 
 $$q(x_{1:T}|x_0)=\prod_{t=1}^{T} q(x_t|x_{t-1}) \tag{2} $$
 
