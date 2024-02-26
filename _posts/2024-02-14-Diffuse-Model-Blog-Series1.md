@@ -17,7 +17,7 @@ Now, delving into the physical intuition behind the diffuse model. Imagining pol
 
 $$x_{t+\Delta t}=x_{t}+\frac{\Delta t}{\gamma}\Delta E +\frac{\Delta t}{\gamma}\epsilon_t \tag{1} $$
 
-Here, \(\Delta E)\ is the potential, \(\gamma)\ is the faction coefficient, $\epsilon_t$ is random variable that follows random distribution. In Equation (1) the second term accounts for drift of pollen driven by particle density, and the third term represents particle's random motion.
+Here, \(\Delta E\) is the potential, $\gamma$ is the faction coefficient, $\epsilon_t$ is random variable that follows random distribution. In Equation (1) the second term accounts for drift of pollen driven by particle density, and the third term represents particle's random motion.
 
 The diffuse model consists of two distinct processes: forward and reverse (generation). Understanding the diffuse process from the physical perspective reveals that the forward process mimics the diffusion of pollen particles in water. During this phase, the diffuse model consistently introduces random noise into the system. In contrast, the reverse (generation) process is designed to entirely reverse the diffusion process, allowing for the collection of pollen. This reversal entails retracing the movements or distribution of diffusing particles in the opposite direction, ultimately restoring the initial configuration.
 
