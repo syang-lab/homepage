@@ -31,7 +31,7 @@ The denoising probabilistic diffusion model (DDPM) (Ho et al., 2020) is one the 
 <img src="/files/diffuse/Fig1-DDPM.png" class="img-responsive" alt="">
 <img src="/images/500x300.png" class="img-responsive" alt="">
 
-**Forward Process**: the probability \\(q(x_{1:T}\|x_0)\\) of obtaining \\(x_T\\) from the original image \\(x_0\\) is product of \\(q(x_t|x_{t-1})\\)
+**Forward Process**: the probability \\(q(x_{1:T}|x_0)\\) of obtaining \\(x_T\\) from the original image \\(x_0\\) is product of \\(q(x_t|x_{t-1})\\)
 
 $$q(x_{1:T}|x_0)=\prod_{t=1}^{T} q(x_t\|x_{t-1}) \tag{2} $$
 
