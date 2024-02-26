@@ -111,7 +111,6 @@ $$L_{simple}(\theta)=E_{\tau,x_0,\epsilon}[||\epsilon-\epsilon_{\theta}(\sqrt{\b
 Reducing the inference time with DDPM is a critical concern. Denoising Diffusion Implicit Model (DDIM) (Song et al., 2020) solves this problem while also preserving high-level features deterministically, thus facilitating noisy space interpolation.
 
 <img src="/files/diffuse/Fig2-DDIM.png" alt="Isolate">
-![Figure 1](https://assets.digitalocean.com/articles/alligator/boo.svg "a title")
 
 **Forward Process**: the forward process of DDIM maintains the same format as DDPM
 
