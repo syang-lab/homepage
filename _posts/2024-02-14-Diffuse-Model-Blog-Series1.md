@@ -28,7 +28,10 @@ Mathematically, the reverse process employs Markov processes, stochastic differe
 
 The denoising probabilistic diffusion model (DDPM) (Ho et al., 2020) is one the pioneers of the diffuse model, for which the forward and reverse process are shown in Figure 1. In the forward process \\(q(x_t\|x_{t-1})\\), noise is intentionally introduced into the original image \\(x_0\\), until the image becomes random noise \\(x_T\\). Conversely, in the reverse process \\(p_{\theta}(x_{t-1}\|x_t)\\), noise is systematically removed from the noisy image \\(x_T\\), and ultimately restoring the original image. 
 
-<img src="../files/diffuse/Fig1-DDPM.png">
+<figure>
+  <img src="../files/diffuse/Fig1-DDPM.png">
+  <figcaption>Figure 1. The directed graphical model of DDPM (Ho et al., 2020). </figcaption>
+</figure>
 
 **Forward Process**: the probability \\(q(x_{1:T}\|x_0)\\) of obtaining \\(x_T\\) from the original image \\(x_0\\) is product of \\(q(x_t\|x_{t-1})\\)
 
@@ -110,7 +113,10 @@ $$L_{simple}(\theta)=E_{\tau,x_0,\epsilon}[||\epsilon-\epsilon_{\theta}(\sqrt{\b
 ## Denoising Diffusion Implicit Model--DDIM
 Reducing the inference time with DDPM is a critical concern. Denoising Diffusion Implicit Model (DDIM) (Song et al., 2020) solves this problem while also preserving high-level features deterministically, thus facilitating noisy space interpolation.
 
-<img src="../files/diffuse/Fig2-DDIM.png">
+<figure>
+  <img src="../files/diffuse/Fig2-DDIM.png">
+  <figcaption>Figure 2. The graphical model of DDIM (Song et al., 2020) </figcaption>
+</figure>
 
 **Forward Process**: the forward process of DDIM maintains the same format as DDPM
 
@@ -145,7 +151,11 @@ the reverse process corresponds to DDPM. Whereas, when \\(\sigma_{t}=0\\), \\(p_
 ## Latent Diffuse Model
 Latent diffuse model can further reduced the time of forward and reverse process though performing the diffuse in the latent space without reducing the synthesis quality (Rombach et al., 2022). The architecture of latent diffuse model is shown in Figure 3. The latent diffuse model include two stages, the first stage contains a VAE (Razavi et al., 2019) or VQGAN  (Esser et al., 2021) model. The encoder \\(\varepsilon\\) encoded \\(x\\) into the latent space \\(z\\), the decoder \\(D\\) decode \\(z\\) into the image space. In the second stage, forward and reverse diffusion happens in the latent space \\(z\\),  hence reducing the training and inference time. The conditions are added to the diffusion model after embedded using encoder \\(\tau_{\theta}\\), the encoded conditions are query in the cross-attention layers of the modified Unet \\(\epsilon_{\theta}\\) model.
 
-<img src="../files/diffuse/Fig3-LD.png" alt="The architecture of latent diffuse model (Rombach et al., 2022)">
+<figure>
+  <img src="../files/diffuse/Fig3-LD.png">
+  <figcaption>Figure 3. The architecture of latent diffuse model (Rombach et al.,2022) </figcaption>
+</figure>
+
 
 # Conditioned Diffuse Model and Guided Generation
 The conditional diffuse model depends not only on \\(x_t\\) and \\(t\\) but also on the external condition \\(c\\).  Guided diffusion is employed in the generation process to direct the conditional diffuse model. This guidance encompasses classifier guidance, where another model needs to be trained to provide guidance using its gradient (Nichol et al., 2021; Dhariwal & Nichol, 2021). On the other hand, classifier-free guidance does not necessitate the training of additional models. Instead, classifier-free guidance jointly trains the conditional and unconditional models, enabling the model to learn to capture the condition guidance (Ho & Salimans, 2022).
