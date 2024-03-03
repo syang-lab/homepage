@@ -216,4 +216,18 @@ Sohl-Dickstein, J., Weiss, E., Maheswaranathan, N., and Ganguli, S. Deep unsuper
 
 Song, J., Meng, C., and Ermon, S. Denoising diffusion implicit models. arXiv preprint arXiv:2010.02502, 2020.
 
+## Citation
+```bibtex
+@misc{syang2024,
+  author = {Shan Yang},
+  title = {Diffuse Model Review Series 1},
+  year = {2024},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://syang-lab.github.io/homepage.github.io/posts/2024-02-14-Diffuse-Model-Blog-Series1}},
+}
+```
+
+
+
 
