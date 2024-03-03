@@ -41,7 +41,7 @@ training codes within a unified package, addressing the absence of training code
   * Developed a python package capable of computing time-resolved experimental signals, featuring an implementation of the auto-correlation function to simulate spectral signals arising from atom vibrations.
   * Conducted an extensive examination of the advancements and obstacles in integrating computational materials science with deep learning, documented in my PhD thesis.
 
-## Peer Reviewer Experience
+## Peer Review Experience
 * International Conference on Learning Representations
 * Computer Physics Communications
 * Physical Review Materials
