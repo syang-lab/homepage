@@ -156,6 +156,23 @@ Latent diffuse model can further reduced the time of forward and reverse process
   <figcaption>Figure 3. The architecture of latent diffuse model (Rombach et al.,2022) </figcaption>
 </figure>
 
+## DALL-E 2
+DALL-E 2, as discussed in (Ramesh et al., 2022), employs an image diffusion process (decoder) within the latent space of the CLIP model, distinguishing it from latent diffuse models that utilize VQVAE or VQGAN latent spaces. In contrast to these models, the image diffuse model in DALL-E 2 rely on a prior model to convert text embeddings into image embeddings, which subsequently serve as conditions for the image diffuse model. Moreover, latent space diffuse model serves as a prior model for translating text embeddings into image embeddings, with the text embeddings providing classifier-free guidance to the image diffuse model. The model architecture is illustrated in Figure 4.
+
+<figure>
+  <img src="../files/diffuse/Fig5-DALLE.png">
+  <figcaption>Figure 4. High level overview of DALL-E 2 model (Ramesh et al., 2022). </figcaption>
+</figure>
+
+
+## Imagen
+Imagen  (Saharia et al., 2022) expanded the latent diffuse model by incorporating two extra super-resolution diffuse models to generate high-resolution images. The architecture of the Imagen model is illustrated in Figure Figure 5. The diffuse model is conditioned on a pretrained text encoder using classifier-free guidance, for which (Saharia et al., 2022) observed that scaling the size of the text encoder enhances text-image alignment and fidelity more effectively than scaling the image diffusion model alone. Additionally, instead of using Unet, Imagen replaces it with Efficient Unet, which offers improved memory efficiency and faster convergence.
+
+<figure>
+  <img src="../files/diffuse/Fig4-Imagen.png">
+  <figcaption>Figure 5. The architecture of Imagen (Saharia et al., 2022).  </figcaption>
+</figure>
+
 
 # Conditioned Diffuse Model and Guided Generation
 The conditional diffuse model depends not only on \\(x_t\\) and \\(t\\) but also on the external condition \\(c\\).  Guided diffusion is employed in the generation process to direct the conditional diffuse model. This guidance encompasses classifier guidance, where another model needs to be trained to provide guidance using its gradient (Nichol et al., 2021; Dhariwal & Nichol, 2021). On the other hand, classifier-free guidance does not necessitate the training of additional models. Instead, classifier-free guidance jointly trains the conditional and unconditional models, enabling the model to learn to capture the condition guidance (Ho & Salimans, 2022).
