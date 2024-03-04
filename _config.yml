@@ -12,9 +12,9 @@ title                    : "SYANG'S HOMEPAGE"
 title_separator          : "-"
 name                     : &name "Shan Yang"
 description              : &description "Gen AI Research and Application"
-url                      : https://syang-lab.github.io/homepage.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+url                      : https://syang-lab.github.io/homepage # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
-repository               : "syang-lab/homepage.github.io"
+repository               : "syang-lab/homepage"
 
 # Site Author - The following control what appear as part of the author content on the side bar.
 #               If a field is blank the icon and link will not appear, otherwise it will be shown.
