@@ -12,7 +12,7 @@ I earned my PhD in Materials Science and a Master's degree in Computer Science f
 
 In addition to my academic background, I've gained practical experience in VQGAN, diffuse models and natural language processing projects (details about projects will be posted in [portfolio](https://syang-lab.github.io/homepage/portfolio/)--comming soon). 
 
-Currently, I'm in the process of writing a comprehensive blog series on diffuse models. This is the first [blog post](https://syang-lab.github.io/homepage/posts/2024-02-14-Diffuse-Model-Blog-Series1) of the series, diving into the underlying physics and mathematics behind diffuse model.
+Currently, I'm in the process of writing a comprehensive blog series on diffuse models. This is the first of the series [blog post 1](https://syang-lab.github.io/homepage/posts/2024-02-14-Diffuse-Model-Blog-Series1), diving into the underlying physics and mathematics behind diffuse model. The second [blog post 2](https://syang-lab.github.io/homepage/posts/2024-03-3-Diffuse-Model-Blog-Series2) is on the way, convering zero-shot image editing techniques based on diffuse model.
 
 ## Projects
 * Implemented Layered Rendering Diffusion Model for Zero-Shot Guided Image Synthesis [Colab LRDiff](https://colab.research.google.com/drive/1KcNvrjh7k5G4FFbzeMfdGruA-o0Y4XZB)
