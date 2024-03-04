@@ -1,6 +1,6 @@
 ---
-title: 'Diffuse Model Blog Series1'
-date: 2024-02-14
+title: 'Diffuse Model Blog Series2: Controlled Zero-shot Image Generation'
+date: 2024-03-3
 permalink: /posts/2024-03-3-Diffuse-Model-Blog-Series2
 tags:
   - diffuse model
