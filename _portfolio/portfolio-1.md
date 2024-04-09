@@ -1,5 +1,5 @@
 ---
-title: "Project 1: Text-to-SQL Chat Demo based on Instruction Fine-tuned Llama (7B) Model"
+title: "Project 1: Text-to-SQL RAG Chatbot based on Instruction Fine-tuned Llama (7B) Mode"
 collection: portfolio
 ---
 
@@ -7,7 +7,7 @@ collection: portfolio
 This project contains two parts: 
 1. Instruction fine-tuning Llama model on Text-to-SQL dataset.
 2. Constructed a vector database to enhance Llama’s performance utilizing the Retrieval-Augmented Generation (RAG) technique and the Langchain framework. And developed a Gradio chat web demo.
-![download model](/images/model_overview.png)
+![download model](./images/model_overview.png)
 
 #### Instruction fine-tuning Llama model on Text-to-SQL dataset.
 1. Data Preprocessing
@@ -92,7 +92,7 @@ Here are the configurations for quantization and LoRa:
       stage: 2
 ```
 
-![training_loss](/images/training_loss.png)
+![training_loss](./images/training_loss.png)
 
 6. Evaluation Matrix
 <br> In general, pretrained large language models are evaluated through widely used benchmark datasets such as Alpaca, among others. Here, to assess the results of instruction fine-tuning, the test portion of the original dataset is utilized to evaluate performance. Additionally, evaluation metrics include exact match, BLEU score, and ROUGE score. Meanwhile, parameters such as temperature, top-k, and top-p can be tuned to enhance performance.
@@ -140,4 +140,4 @@ Then pass the model and vector database to the RetrievalQA module.
 ```
 
 3.Gradio Deployment
-![gradio_deployment](/images/gradio_deployment.png)
+![gradio_deployment](./images/gradio_deployment.png)
