@@ -15,6 +15,10 @@ In addition to my academic background, I've gained practical experience in VQGAN
 Currently, I'm in the process of writing a comprehensive blog series on diffuse models. This is the first of the series [blog post 1](https://syang-lab.github.io/homepage/posts/2024-02-14-Diffuse-Model-Blog-Series1), diving into the underlying physics and mathematics behind diffuse model. The second [blog post 2](https://syang-lab.github.io/homepage/posts/2024-03-3-Diffuse-Model-Blog-Series2) is on the way, convering zero-shot image editing techniques based on diffuse model.
 
 ## Projects
+* Text-to-SQL Chat Demo based on Instruction Fine-tuned Llama (7B) Model
+  * Enhanced efficiency of Llama model instruction fine-tuning by integrating quantization, LoRA, and deepSpeed methods.
+  * Reduce the trainable parameters by 60%, enabling the instruction fine-tuning of the Llama model on a 30% A100 with 24G memory.
+  * Constructed a vector database to enhance Llama’s performance utilizing the Retrieval-Augmented Generation (RAG) technique and the Langchain framework. Additionally, developed a Gradio chat web demo.[GitHub](https://syang-lab.github.io/Text2SQL-RAG-Chatbot/)
 * Implemented Layered Rendering Diffusion Model for Zero-Shot Guided Image Synthesis [Colab LRDiff](https://colab.research.google.com/drive/1KcNvrjh7k5G4FFbzeMfdGruA-o0Y4XZB)
   * Launched the first version of the rendering diffusion model, enabling the synthesis of images that adhere to particular spatial and contextual specifications. Published the code to paperwithcode.
   * LRDiff can manipulate the spatial arrangement of semantic objects via sampling without the necessity for retraining.
