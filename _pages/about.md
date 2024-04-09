@@ -16,9 +16,9 @@ Currently, I'm in the process of writing a comprehensive blog series on diffuse 
 
 ## Projects
 * Text-to-SQL Chat Demo based on Instruction Fine-tuned Llama (7B) Model
-  * Enhanced efficiency of Llama model instruction fine-tuning by integrating quantization, LoRA, and deepSpeed methods.
+  * Enhanced efficiency of Llama model instruction fine-tuning by integrating quantization, LoRA, and deepSpeed methods. [GitHub](https://syang-lab.github.io/Text2SQL-RAG-Chatbot/)
   * Reduce the trainable parameters by 60%, enabling the instruction fine-tuning of the Llama model on a 30% A100 with 24G memory.
-  * Constructed a vector database to enhance Llama’s performance utilizing the Retrieval-Augmented Generation (RAG) technique and the Langchain framework. Additionally, developed a Gradio chat web demo.[GitHub](https://syang-lab.github.io/Text2SQL-RAG-Chatbot/)
+  * Constructed a vector database to enhance Llama’s performance utilizing the Retrieval-Augmented Generation (RAG) technique and the Langchain framework. Additionally, developed a Gradio chat web demo.
 * Implemented Layered Rendering Diffusion Model for Zero-Shot Guided Image Synthesis [Colab LRDiff](https://colab.research.google.com/drive/1KcNvrjh7k5G4FFbzeMfdGruA-o0Y4XZB)
   * Launched the first version of the rendering diffusion model, enabling the synthesis of images that adhere to particular spatial and contextual specifications. Published the code to paperwithcode.
   * LRDiff can manipulate the spatial arrangement of semantic objects via sampling without the necessity for retraining.
